@@ -1,0 +1,11 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reactive_services
+    type: com.zaxxer.hikari.HikariDataSource
+    username: postgres
+    password: postgres
+    hikari:
+      connection-timeout: 10000
+      maximum-pool-size: 500
