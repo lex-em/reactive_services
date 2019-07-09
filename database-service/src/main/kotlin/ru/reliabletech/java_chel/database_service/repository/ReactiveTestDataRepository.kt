@@ -3,10 +3,11 @@
  */
 package ru.reliabletech.java_chel.database_service.repository
 
+import kotlinx.coroutines.flow.Flow
 import org.springframework.data.r2dbc.core.DatabaseClient
 import org.springframework.data.r2dbc.core.asType
+import org.springframework.data.r2dbc.core.flow
 import org.springframework.stereotype.Repository
-import reactor.core.publisher.Flux
 import ru.reliabletech.java_chel.database_service.model.TestData
 
 /**
@@ -16,7 +17,7 @@ import ru.reliabletech.java_chel.database_service.model.TestData
 @Repository
 class ReactiveTestDataRepository(val databaseClient: DatabaseClient) : TestDataRepository {
 
-    override fun findTestData(page: Int, size: Int, data_like: String): Flux<TestData> {
+    override suspend fun findTestData(page: Int, size: Int, data_like: String): Flow<TestData> {
         return databaseClient.execute()
             .sql("select * from public.find(:data_like, :offset, :size)")
             .bind("data_like", data_like)
@@ -24,6 +25,6 @@ class ReactiveTestDataRepository(val databaseClient: DatabaseClient) : TestDataR
             .bind("size", size)
             .asType<TestData>()
             .fetch()
-            .all()
+            .flow()
     }
 }

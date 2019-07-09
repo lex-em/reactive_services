@@ -19,7 +19,7 @@ import ru.reliabletech.java_chel.front_service.service.FrontService
 class ComplexDataController(private val frontService: FrontService) {
 
     @GetMapping("/data")
-    fun delayeData() : Mono<ComplexData> {
+    suspend fun delayeData() : ComplexData {
         return frontService.getComplexData()
     }
 }

@@ -2,10 +2,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val artifactId = "front-service"
 
+val coroutinesVersion = "1.2.1"
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))
     compile("org.springframework.boot:spring-boot-starter-webflux")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutinesVersion}")
     compile("org.springframework.data:spring-data-commons:2.2.0.RC1")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("io.github.microutils:kotlin-logging:1.6.26")

@@ -3,7 +3,7 @@
  */
 package ru.reliabletech.java_chel.database_service.repository
 
-import reactor.core.publisher.Flux
+import kotlinx.coroutines.flow.Flow
 import ru.reliabletech.java_chel.database_service.model.TestData
 
 /**
@@ -12,5 +12,5 @@ import ru.reliabletech.java_chel.database_service.model.TestData
  */
 interface TestDataRepository {
 
-    fun findTestData(page: Int, size: Int, data_like: String) : Flux<TestData>
+    suspend fun findTestData(page: Int, size: Int, data_like: String) : Flow<TestData>
 }

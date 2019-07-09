@@ -3,7 +3,7 @@
  */
 package ru.reliabletech.java_chel.database_service.service
 
-import reactor.core.publisher.Flux
+import kotlinx.coroutines.flow.Flow
 import ru.reliabletech.java_chel.database_service.model.TestData
 
 /**
@@ -12,5 +12,5 @@ import ru.reliabletech.java_chel.database_service.model.TestData
  */
 interface TestDataService {
 
-    fun fetchTestData(page: Int, size: Int) : Flux<TestData>
+    suspend fun fetchTestData(page: Int, size: Int) : Flow<TestData>
 }
