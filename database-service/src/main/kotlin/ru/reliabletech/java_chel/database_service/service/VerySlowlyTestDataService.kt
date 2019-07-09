@@ -3,12 +3,13 @@
  */
 package ru.reliabletech.java_chel.database_service.service
 
-import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import reactor.core.publisher.Flux
 import ru.reliabletech.java_chel.database_service.model.Alphabet16
 import ru.reliabletech.java_chel.database_service.model.TestData
 import ru.reliabletech.java_chel.database_service.repository.TestDataRepository
-import javax.transaction.Transactional
 
 /**
  * @author Emelyanov Alexandr <mr.lex91@gmail.com>
@@ -16,9 +17,9 @@ import javax.transaction.Transactional
  */
 @Service
 @Transactional
-class VerySlowlyTestDataService(private val testDataRepository: TestDataRepository) :TestDataService {
+class VerySlowlyTestDataService(private val testDataRepository: TestDataRepository) : TestDataService {
 
-    override fun fetchTestData(pageable: Pageable) : List<TestData> {
-        return testDataRepository.findTestData(Alphabet16.random().name, pageable)
+    override fun fetchTestData(page: Int, size: Int): Flux<TestData> {
+        return testDataRepository.findTestData(page, size, Alphabet16.random().name)
     }
 }

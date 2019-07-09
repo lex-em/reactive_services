@@ -3,7 +3,7 @@
  */
 package ru.reliabletech.java_chel.database_service.service
 
-import org.springframework.data.domain.Pageable
+import reactor.core.publisher.Flux
 import ru.reliabletech.java_chel.database_service.model.TestData
 
 /**
@@ -12,5 +12,5 @@ import ru.reliabletech.java_chel.database_service.model.TestData
  */
 interface TestDataService {
 
-    fun fetchTestData(pageable: Pageable) : List<TestData>
+    fun fetchTestData(page: Int, size: Int) : Flux<TestData>
 }

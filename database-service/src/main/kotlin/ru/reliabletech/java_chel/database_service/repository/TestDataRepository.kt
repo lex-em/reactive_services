@@ -3,14 +3,14 @@
  */
 package ru.reliabletech.java_chel.database_service.repository
 
-import org.springframework.data.domain.Pageable
+import reactor.core.publisher.Flux
 import ru.reliabletech.java_chel.database_service.model.TestData
 
 /**
  * @author Emelyanov Alexandr <mr.lex91@gmail.com>
  *         Created on 19.05.19
  */
-interface TestDataRepository { //: JpaRepository<TestData, Long> {
+interface TestDataRepository {
 
-    fun findTestData(data_like: String, pageable: Pageable) : List<TestData>
+    fun findTestData(page: Int, size: Int, data_like: String) : Flux<TestData>
 }

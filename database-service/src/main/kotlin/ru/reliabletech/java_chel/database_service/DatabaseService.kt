@@ -3,10 +3,7 @@ package ru.reliabletech.java_chel.database_service
 import mu.KLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy
 import org.springframework.boot.runApplication
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Component
 import java.sql.DriverManager
 
@@ -69,17 +66,6 @@ class CommonDatabaseCreator(
         } catch (e: Exception) {
             logger.error("Failed to create database \'{}\': {}", databaseName, e.message)
         }
-
     }
 }
 
-@Configuration
-class DbConfig {
-    @Bean
-    fun beforeMigrationStrategy(databaseCreator: CommonDatabaseCreator): FlywayMigrationStrategy {
-        return FlywayMigrationStrategy { flyway ->
-            databaseCreator.createDatabase()
-            flyway.migrate()
-        }
-    }
-}
