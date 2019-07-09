@@ -5,7 +5,7 @@ val artifactId = "front-service"
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-webflux")
     compile("org.springframework.data:spring-data-commons:2.2.0.RC1")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile("io.github.microutils:kotlin-logging:1.6.26")

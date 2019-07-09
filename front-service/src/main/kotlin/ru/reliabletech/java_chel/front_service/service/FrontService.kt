@@ -4,6 +4,7 @@ package ru.reliabletech.java_chel.front_service.service
  * Copyright (c) 2019, ReliableTech.ru. All rights reserved.
  */
 
+import reactor.core.publisher.Mono
 import ru.reliabletech.java_chel.front_service.dto.ComplexData
 
 /**
@@ -12,5 +13,5 @@ import ru.reliabletech.java_chel.front_service.dto.ComplexData
  */
 interface FrontService {
 
-    fun getComplexData(): ComplexData
+    fun getComplexData(): Mono<ComplexData>
 }

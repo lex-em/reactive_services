@@ -1,10 +1,9 @@
 package ru.reliabletech.java_chel.front_service.service
 
 import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
+import org.springframework.web.reactive.function.client.WebClient
+import reactor.core.publisher.Mono
 import ru.reliabletech.java_chel.front_service.dto.ComplexData
 import ru.reliabletech.java_chel.front_service.dto.DelayedData
 import ru.reliabletech.java_chel.front_service.dto.TestData
@@ -19,20 +18,25 @@ import ru.reliabletech.java_chel.front_service.dto.TestData
  *         Created on 10.05.19
  */
 @Service
-class GenericFrontService(private val restTemplate: RestTemplate) : FrontService {
+class GenericFrontService : FrontService {
 
-    override fun getComplexData(): ComplexData {
-        val delayedData = restTemplate.getForEntity("http://localhost:8081/delayed", DelayedData::class.java)
-            .body!!
-        val testData = restTemplate.exchange(
-            "http://localhost:8082/slowly-data?page={page}&size={size}",
-            HttpMethod.GET,
-            HttpEntity.EMPTY,
-            object : ParameterizedTypeReference<List<TestData>>() {},
-            20, 200)
-            .body!!
+    private val delayedService = WebClient.create("http://localhost:8081/delayed")
+    private val databaseService = WebClient.create("http://localhost:8082/slowly-data")
 
-        return ComplexData(delayedData, testData)
+    override fun getComplexData(): Mono<ComplexData> {
+        val delayedData = delayedService.get()
+            .retrieve()
+            .bodyToMono(DelayedData::class.java)
+        val testData = databaseService.get()
+            .uri {
+                it.queryParam("page", 20)
+                    .queryParam("size", 200)
+                    .build()
+            }
+            .retrieve()
+            .bodyToMono(object : ParameterizedTypeReference<List<TestData>>() {})
+        return delayedData.zipWith(testData)
+            .map { ComplexData(it.t1, it.t2) }
     }
 
 }
